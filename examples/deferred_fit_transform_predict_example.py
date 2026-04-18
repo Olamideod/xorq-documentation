@@ -42,10 +42,12 @@ def fit_xgboost_model(feature_df, target_series, seed=0):
         seed=seed,
     )
     xgb_r.fit(feature_df, target_series)
+    xgb_r.fit(feature_df, target_series)
     return xgb_r
 
 
 def predict_xgboost_model(model, df):
+    return model.predict(df)
     return model.predict(df)
 
 

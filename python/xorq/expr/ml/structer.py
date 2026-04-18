@@ -257,10 +257,16 @@ class Structer:
             raise ValueError(
                 "KV-encoded Structer has no dtype - schema resolved at runtime"
             )
+        if self.is_kv_encoded:
+            raise ValueError(
+                "KV-encoded Structer has no dtype - schema resolved at runtime"
+            )
         return toolz.valmap(operator.methodcaller("to_pandas"), self.struct.fields)
 
     @property
     def return_type(self):
+        if self.is_kv_encoded:
+            return KV_ENCODED_TYPE
         if self.is_kv_encoded:
             return KV_ENCODED_TYPE
         return self.struct
@@ -299,6 +305,10 @@ class Structer:
         return expr.unpack(col_name)
 
     def get_convert_array(self):
+        if self.is_kv_encoded:
+            raise ValueError(
+                "get_convert_array cannot be used with KV-encoded Structer"
+            )
         if self.is_kv_encoded:
             raise ValueError(
                 "get_convert_array cannot be used with KV-encoded Structer"
@@ -400,6 +410,7 @@ class Structer:
     @classmethod
     @toolz.curry
     def from_n_typ_prefix(cls, n, typ=float, prefix="transformed_"):
+        """Create a Structer with known schema using numbered column names."""
         """Create a Structer with known schema using numbered column names."""
         names = tuple(f"{prefix}{i}" for i in range(n))
         return cls.from_names_typ(names, typ)

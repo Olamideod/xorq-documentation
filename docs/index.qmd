@@ -86,7 +86,7 @@ Production-ready patterns for deploying and scaling your pipelines
 ::: {.doc-card}
 <i class="bi bi-lightbulb"></i>
 
-[**Concepts**](concepts/understanding_xorq/overview.qmd)
+[**Concepts**](concepts)
 
 Deep dives into deferred execution, caching, and architecture
 :::

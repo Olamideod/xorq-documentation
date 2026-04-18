@@ -26,6 +26,8 @@ from xorq.ml import (
 sk_linear_model = pytest.importorskip("sklearn.linear_model")
 sk_preprocessing = pytest.importorskip("sklearn.preprocessing")
 sk_feature_selection = pytest.importorskip("sklearn.feature_selection")
+sk_preprocessing = pytest.importorskip("sklearn.preprocessing")
+sk_feature_selection = pytest.importorskip("sklearn.feature_selection")
 sk_feature_extraction_text = pytest.importorskip("sklearn.feature_extraction.text")
 
 
