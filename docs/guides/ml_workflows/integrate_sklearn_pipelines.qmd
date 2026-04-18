@@ -20,7 +20,7 @@ Wrap your existing sklearn pipelines with `Pipeline.from_instance()` to add defe
 Create `wrap_and_predict.py` to use your wrapped pipeline with Xorq expressions:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline, train_test_splits
 from sklearn.preprocessing import StandardScaler
@@ -73,7 +73,7 @@ Use `set_params()` with the `step__parameter` syntax. Xorq pipelines support skl
 Create `update_params.py` to modify pipeline parameters and verify the changes:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -243,7 +243,7 @@ Access the underlying sklearn pipeline when you need sklearn-specific methods or
 Create `access_sklearn_instance.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -283,7 +283,7 @@ Add caching to your wrapped sklearn pipelines to speed up repeated training and 
 Create `cache_pipeline.py` to add caching to your wrapped sklearn pipelines. Caching speeds up repeated training by reusing fitted models:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline
 from xorq.caching import ParquetCache

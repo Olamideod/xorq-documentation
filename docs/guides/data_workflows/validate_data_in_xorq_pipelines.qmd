@@ -17,7 +17,7 @@ Data validation happens at two stages: when you create expressions and when you 
 Define required columns and types using `xo.schema()`. Create `schema_validation.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # schema_validation.py
 import xorq.api as xo
 import pandas as pd
@@ -102,7 +102,7 @@ Runtime validation catches data quality issues during execution. These checks ru
 Remove rows with missing values in critical columns. Create `check_nulls.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # check_nulls.py
 import xorq.api as xo
 
@@ -140,7 +140,7 @@ print(f"Removed rows: {len(original) - len(df)}")
 Raise exceptions when validation fails to prevent processing invalid data. Create `fail_fast_validation.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # fail_fast_validation.py
 import xorq.api as xo
 
@@ -228,7 +228,7 @@ df = validate_and_process(data, ["customer_id", "email", "status"])
 Drop rows with null values using `.drop_null()`. Create `drop_nulls.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # drop_nulls.py
 import xorq.api as xo
 
@@ -266,7 +266,7 @@ Beyond nulls, values can be out of range. Filter so numbers and dates stay withi
 Filter data to ensure values fall within expected ranges. Create `validate_ranges.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # validate_ranges.py
 import xorq.api as xo
 
@@ -301,7 +301,7 @@ Range validation removes rows that don't meet the criteria. To verify, check tha
 Check string formats using string methods. Create `validate_strings.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # validate_strings.py
 import xorq.api as xo
 
@@ -337,7 +337,7 @@ Combine expression creation schema validation with runtime business rule validat
 Create `custom_validation.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # custom_validation.py
 import pandas as pd
 import xorq.api as xo

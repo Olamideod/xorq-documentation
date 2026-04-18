@@ -1,0 +1,42 @@
+---
+title: 'Tutorials'
+description: "Step-by-step tutorials for building ML pipelines, AI integrations, and analytics workflows with Xorq"
+---
+
+Hands-on tutorials that walk you through specific tasks from start to finish. Each tutorial builds working code you can run immediately.
+
+## Explore the tutorials
+
+::: {.docs-grid}
+::: {.doc-card}
+<i class="bi bi-cpu"></i>
+
+[**ML tutorials**](ml_tutorials/split_data_for_training.qmd)
+
+Split data for training, train and evaluate models, and deploy your first pipeline
+:::
+
+::: {.doc-card}
+<i class="bi bi-stars"></i>
+
+[**AI tutorials**](ai_tutorials/your_first_udxf.qmd)
+
+Build UDXFs, call LLMs from expressions, create MCP tools, and work with Arrow Flight
+:::
+
+::: {.doc-card}
+<i class="bi bi-bar-chart"></i>
+
+[**Analytics tutorials**](analytics_tutorials/create_your_first_udf.qmd)
+
+Create custom UDFs, work with schemas, and extend SQL with Python logic
+:::
+
+::: {.doc-card}
+<i class="bi bi-layers"></i>
+
+[**Core tutorials**](core_tutorials/understand_deferred_execution.qmd)
+
+Understand deferred execution, explore caching, switch backends, and build your first artifact
+:::
+:::

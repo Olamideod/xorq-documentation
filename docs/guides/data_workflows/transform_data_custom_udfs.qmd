@@ -18,7 +18,7 @@ Custom user-defined functions (UDFs) extend Xorq's SQL capabilities with Python 
 Create `text_transform.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # text_transform.py
 import xorq.api as xo
 import pandas as pd
@@ -67,7 +67,7 @@ UDFs fail at execution time when they encounter invalid data. Validate inputs an
 Create `validated_transform.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # validated_transform.py
 import xorq.api as xo
 import pandas as pd
@@ -123,7 +123,7 @@ print(df)
 To verify error handling works, modify `validated_transform.py` to use bad data:
 
 ```{python}
-#| eval: true
+#| eval: false
 # <1>
 data = xo.memtable({
     "price": [10.0, -5.0, 30.0],
@@ -153,7 +153,7 @@ Aggregation UDFs reduce multiple rows to a single value, enabling custom metrics
 Create `custom_aggregation.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # custom_aggregation.py
 import xorq.api as xo
 import pandas as pd
@@ -225,7 +225,7 @@ Test UDFs separately from your pipeline to catch errors early.
 Create `test_udfs.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # test_udfs.py
 import pandas as pd
 import pytest
@@ -354,7 +354,7 @@ def fast_transform_fn(df: pd.DataFrame) -> pd.Series:
 Copying DataFrames inside UDFs costs memory and time. The example below shows a UDF that copies unnecessarily versus one that works on columns directly, so you can keep your UDFs lean.
 
 ```{python}
-#| eval: true
+#| eval: false
 # <1>
 def process_with_copies(df: pd.DataFrame) -> pd.Series:
     df = df.copy()
@@ -395,7 +395,7 @@ Performance optimization helps, but monitoring tells you when UDFs degrade in pr
 Log UDF errors with input samples to diagnose issues. The code below wraps a UDF in try/except and logs failures with a small sample of the input so you can debug in production without dumping full datasets.
 
 ```{python}
-#| eval: true
+#| eval: false
 import logging
 import pandas as pd
 
@@ -427,7 +427,7 @@ Monitoring alerts you to problems, but maintainability prevents them. Keep UDF c
 **Version UDF logic**: When changing UDF behavior, create new versions:
 
 ```{python}
-#| eval: true
+#| eval: false
 # <1>
 def clean_text_v1_fn(df: pd.DataFrame) -> pd.Series:
     return df["text"].str.strip().str.lower()
@@ -496,7 +496,7 @@ from my_module import my_udf
 **Solution**: Ensure the function returns the correct pandas dtype:
 
 ```{python}
-#| eval: true
+#| eval: false
 # <1>
 def my_udf_fn(df: pd.DataFrame) -> pd.Series:
     return df["x"].astype("float64")
@@ -520,7 +520,7 @@ my_udf = make_pandas_udf(
 **Solution**: Profile and optimize:
 
 ```{python}
-#| eval: true
+#| eval: false
 import time
 import xorq.api as xo
 import pandas as pd

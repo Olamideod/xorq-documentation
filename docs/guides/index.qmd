@@ -1,0 +1,42 @@
+---
+title: 'Guides'
+description: "In-depth guides for data workflows, ML pipelines, performance optimization, and platform operations with Xorq"
+---
+
+In-depth guides for common workflows. Each guide covers a specific topic end-to-end with production patterns, error handling, and best practices.
+
+## Explore the guides
+
+::: {.docs-grid}
+::: {.doc-card}
+<i class="bi bi-file-earmark-bar-graph"></i>
+
+[**Data workflows**](data_workflows/read_write_production_data.qmd)
+
+Read and write production data, validate quality, transform with custom UDFs, and build feature pipelines
+:::
+
+::: {.doc-card}
+<i class="bi bi-diagram-3"></i>
+
+[**ML workflows**](ml_workflows/integrate_sklearn_pipelines.qmd)
+
+Integrate scikit-learn pipelines, train models at scale, and evaluate performance
+:::
+
+::: {.doc-card}
+<i class="bi bi-speedometer2"></i>
+
+[**Performance workflows**](performance_workflows/optimize_pipeline_performance.qmd)
+
+Optimize pipeline performance, tune model serving, and switch backends dynamically
+:::
+
+::: {.doc-card}
+<i class="bi bi-cloud"></i>
+
+[**Platform workflows**](platform_workflows/manage_compute_catalog.qmd)
+
+Manage the compute catalog, set up CI/CD, and monitor production deployments
+:::
+:::

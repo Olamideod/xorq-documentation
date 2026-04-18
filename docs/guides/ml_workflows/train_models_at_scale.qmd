@@ -28,7 +28,7 @@ This guide uses synthetic data for demonstration. For production, replace `xo.me
 Create `load_and_split.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import train_test_splits
 
@@ -45,7 +45,7 @@ data = xo.memtable({
     "income": np.random.randint(20000, 150000, n_samples).tolist(),
     "credit_score": np.random.randint(300, 850, n_samples).tolist(),
     "loan_amount": np.random.randint(5000, 50000, n_samples).tolist(),
-}, name="customer_data")
+})
 
 # Create binary target based on simple rule
 data = data.mutate(
@@ -89,18 +89,18 @@ Hash-based splitting ensures that duplicate rows are sent to the same split acro
 Caching avoids redundant computation when you refit or rerun pipelines. Create `train_with_cache.py` to fit a pipeline with caching enabled:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
-from xorq.expr.ml import Step, Pipeline, train_test_splits
+from xorq.expr.ml import Pipeline, train_test_splits
+from sklearn.pipeline import Pipeline as SKPipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from xorq.caching import ParquetCache
 from pathlib import Path
+import numpy as np
 
 # Connect and create a sample dataset
 con = xo.connect()
-import numpy as np
-
 np.random.seed(42)
 n_samples = 1000
 
@@ -109,7 +109,7 @@ data = xo.memtable({
     "income": np.random.randint(20000, 150000, n_samples).tolist(),
     "credit_score": np.random.randint(300, 850, n_samples).tolist(),
     "loan_amount": np.random.randint(5000, 50000, n_samples).tolist(),
-}, name="customer_data")
+})
 
 data = data.mutate(
     approved=((xo._["credit_score"] > 650) & (xo._["income"] > 40000)).cast("int")
@@ -128,13 +128,11 @@ features = ("age", "income", "credit_score", "loan_amount")
 target = "approved"
 
 # Create pipeline
-scaler_step = Step(StandardScaler, name="scaler")
-model_step = Step(
-    LogisticRegression,
-    name="classifier",
-    params_tuple=(("random_state", 42), ("max_iter", 1000))
-)
-pipeline = Pipeline(steps=(scaler_step, model_step))
+sklearn_pipe = SKPipeline([
+    ("scaler", StandardScaler()),
+    ("classifier", LogisticRegression(random_state=42, max_iter=1000))
+])
+pipeline = Pipeline.from_instance(sklearn_pipe)
 
 # Set up caching
 cache = ParquetCache.from_kwargs(
@@ -157,10 +155,10 @@ print("Making predictions...")
 predictions = fitted_pipeline.predict(test_data)
 result = predictions.execute()  # Execution happens here
 
-# Calculate accuracy
-accuracy = (result[target] == result["predicted"]).mean()
+# Calculate accuracy — prediction column is named "predict"
+accuracy = (result[target] == result["predict"]).mean()
 print(f"\nTest accuracy: {accuracy:.2%}")
-print(f"Predictions sample:\n{result[[target, 'predicted']].head()}")
+print(f"Predictions sample:\n{result[[target, 'predict']].head()}")
 ```
 
 **Key points**:
@@ -184,20 +182,20 @@ Caching speeds up iteration, but to optimize training at scale, you need visibil
 Create `monitor_training.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import time
 import xorq.api as xo
-from xorq.expr.ml import Step, Pipeline, train_test_splits
+from xorq.expr.ml import Pipeline, train_test_splits
+from sklearn.pipeline import Pipeline as SKPipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from xorq.caching import ParquetCache
 from pathlib import Path
+import numpy as np
 
 # Load and prepare data
 start_time = time.time()
 con = xo.connect()
-import numpy as np
-
 np.random.seed(42)
 n_samples = 1000
 
@@ -206,7 +204,7 @@ data = xo.memtable({
     "income": np.random.randint(20000, 150000, n_samples).tolist(),
     "credit_score": np.random.randint(300, 850, n_samples).tolist(),
     "loan_amount": np.random.randint(5000, 50000, n_samples).tolist(),
-}, name="customer_data")
+})
 
 data = data.mutate(
     approved=((xo._["credit_score"] > 650) & (xo._["income"] > 40000)).cast("int")
@@ -223,10 +221,11 @@ train_data, test_data = data.pipe(
 features = ("age", "income", "credit_score", "loan_amount")
 target = "approved"
 
-scaler_step = Step(StandardScaler, name="scaler")
-model_step = Step(LogisticRegression, name="classifier", 
-                  params_tuple=(("random_state", 42), ("max_iter", 1000)))
-pipeline = Pipeline(steps=(scaler_step, model_step))
+sklearn_pipe = SKPipeline([
+    ("scaler", StandardScaler()),
+    ("classifier", LogisticRegression(random_state=42, max_iter=1000))
+])
+pipeline = Pipeline.from_instance(sklearn_pipe)
 
 cache = ParquetCache.from_kwargs(
     source=con,
@@ -255,8 +254,8 @@ predictions = fitted_pipeline.predict(test_data)
 result = predictions.execute()
 predict_time = time.time() - predict_start
 
-# Calculate metrics
-accuracy = (result[target] == result["predicted"]).mean()
+# Calculate metrics — prediction column is named "predict"
+accuracy = (result[target] == result["predict"]).mean()
 total_time = time.time() - start_time
 
 print(f"\nPerformance Summary:")
@@ -539,7 +538,7 @@ data = xo.deferred_read_csv(path="data.csv", con=ddb)
 Check cache exists:
 
 ```{python}
-#| eval: true
+#| eval: false
 from pathlib import Path
 
 cache_path = Path("./training-cache")
@@ -550,7 +549,7 @@ print(f"Cache contents: {list(cache_path.glob('*'))}")
 Verify cache strategy:
 
 ```{python}
-#| eval: true
+#| eval: false
 # SourceCache invalidates when data changes
 from xorq.caching import ParquetCache
 

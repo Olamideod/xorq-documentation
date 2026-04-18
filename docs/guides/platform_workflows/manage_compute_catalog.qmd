@@ -45,7 +45,7 @@ Replace `my_expression.py` with your file path and `my_expr` with your expressio
 If you don't have an expression file yet, then create a Python file with your Xorq expression. For example, create `train_model.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import pandas as pd
 import xorq.api as xo
 

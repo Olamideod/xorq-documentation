@@ -24,10 +24,11 @@ Measure execution time for each pipeline stage:
 Create `profile_stages.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import time
 import xorq.api as xo
-from xorq.expr.ml import Pipeline, Step, train_test_splits
+from xorq.expr.ml import Pipeline, train_test_splits
+from sklearn.pipeline import Pipeline as SKPipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 import numpy as np
@@ -40,7 +41,7 @@ data = xo.memtable({
     "feature1": np.random.randn(10000),
     "feature2": np.random.randn(10000),
     "target": np.random.randint(0, 2, 10000)
-}, name="training_data")
+})
 
 # <2>
 stages = {}
@@ -49,10 +50,11 @@ train, test = train_test_splits(data, test_sizes=0.3, unique_key="id", random_se
 stages["split"] = time.time() - start
 
 # <3>
-pipeline = Pipeline(steps=(
-    Step(StandardScaler, name="scaler"),
-    Step(LogisticRegression, name="classifier", params_tuple=(("random_state", 42),))
-))
+sklearn_pipe = SKPipeline([
+    ("scaler", StandardScaler()),
+    ("classifier", LogisticRegression(random_state=42))
+])
+pipeline = Pipeline.from_instance(sklearn_pipe)
 start = time.time()
 fitted = pipeline.fit(train, features=("feature1", "feature2"), target="target")
 stages["fit"] = time.time() - start
@@ -75,7 +77,7 @@ print(f"\nBottleneck: {bottleneck[0]} ({bottleneck[1]:.2f}s)")
 
 1. Import `time` for timing measurements, `xorq.api` for Xorq operations, `xorq.expr.ml` for ML pipeline components, `sklearn` for preprocessing and models, and `numpy` for data generation. Connect to Xorq and create sample training data using memtable for in-memory profiling.
 2. Time the train/test split operation and store the duration.
-3. Define an ML pipeline with preprocessing and a classifier, then time the model training (fit) operation.
+3. Define an ML pipeline using scikit-learn's Pipeline and wrap it with `Pipeline.from_instance()`. Then time the model training (fit) operation.
 4. Time the prediction operation on the test set.
 5. Calculate and display performance breakdown with percentages, then identify the slowest stage (bottleneck).
 
@@ -88,7 +90,7 @@ Use Python's `cProfile` for detailed function-level profiling:
 Create `profile_functions.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import cProfile
 import pstats
 import xorq.api as xo
@@ -145,7 +147,7 @@ Use `SourceCache` when you need automatic cache invalidation in production:
 Create `use_source_cache.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.caching import SourceCache
 import numpy as np
@@ -185,7 +187,7 @@ Use `ParquetCache` for iterative development with durable persistence:
 Create `use_parquet_cache.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.caching import ParquetCache
 from pathlib import Path
@@ -236,7 +238,7 @@ Use snapshot caches when you need fixed snapshots without automatic invalidation
 Create `use_snapshot_cache.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.caching import ParquetSnapshotCache
 from pathlib import Path
@@ -279,7 +281,7 @@ Snapshot caches are ideal for reproducible research and experiments that require
 Clear snapshot caches manually when data updates or to free disk space:
 
 ```{python}
-#| eval: true
+#| eval: false
 import shutil
 from pathlib import Path
 
@@ -379,7 +381,7 @@ Move data between backends for optimal performance:
 Create `switch_backends.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 import numpy as np
 
@@ -481,7 +483,7 @@ Cache expensive intermediate computations:
 Create `cache_intermediate.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 # <1>
 import xorq.api as xo
 from xorq.caching import ParquetCache
@@ -562,7 +564,7 @@ When optimizing performance, you may encounter issues with caching, backend sele
 Verify cache hits by comparing execution times:
 
 ```{python}
-#| eval: true
+#| eval: false
 import time
 import xorq.api as xo
 from xorq.caching import ParquetCache

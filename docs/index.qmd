@@ -62,7 +62,7 @@ Train models, split data, and deploy predictions with Xorq's ML workflow.
 ::: {.doc-card}
 <i class="bi bi-robot"></i>
 
-[**AI tutorials**](tutorials/ai_tutorials/)
+[**AI tutorials**](tutorials/index.qmd)
 
 Call LLMs, build MCP tools, and process data with AI
 :::
@@ -70,7 +70,7 @@ Call LLMs, build MCP tools, and process data with AI
 ::: {.doc-card}
 <i class="bi bi-bar-chart"></i>
 
-[**Analytics tutorials**](tutorials/analytics_tutorials/)
+[**Analytics tutorials**](tutorials/index.qmd)
 
 Query across engines, write UDFs, and build analytics workflows
 :::
@@ -78,7 +78,7 @@ Query across engines, write UDFs, and build analytics workflows
 ::: {.doc-card}
 <i class="bi bi-list-check"></i>
 
-[**Guides**](guides/)
+[**Guides**](guides/index.qmd)
 
 Production-ready patterns for deploying and scaling your pipelines
 :::
@@ -86,7 +86,7 @@ Production-ready patterns for deploying and scaling your pipelines
 ::: {.doc-card}
 <i class="bi bi-lightbulb"></i>
 
-[**Concepts**](core_concepts/)
+[**Concepts**](concepts/understanding_xorq/overview.qmd)
 
 Deep dives into deferred execution, caching, and architecture
 :::
@@ -94,7 +94,7 @@ Deep dives into deferred execution, caching, and architecture
 ::: {.doc-card}
 <i class="bi bi-terminal"></i>
 
-[**CLI reference**](api_reference/cli/)
+[**CLI reference**](api_reference/cli/index.qmd)
 
 Every command you need to build, run, and serve pipelines
 :::
@@ -102,7 +102,7 @@ Every command you need to build, run, and serve pipelines
 ::: {.doc-card}
 <i class="bi bi-code-square"></i>
 
-[**Python API**](reference/)
+[**Python API**](reference/index.qmd)
 
 Full reference for Xorq's Python API
 :::
@@ -110,7 +110,7 @@ Full reference for Xorq's Python API
 ::: {.doc-card}
 <i class="bi bi-wrench"></i>
 
-[**Troubleshooting**](troubleshooting/)
+[**Troubleshooting**](troubleshooting/index.qmd)
 
 Resolve common issues and errors when using Xorq
 :::

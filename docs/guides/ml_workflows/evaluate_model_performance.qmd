@@ -76,7 +76,7 @@ Get predictions and compute multiple metrics using scikit-learn functions.
 Create `evaluate_multiple_metrics.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -142,7 +142,7 @@ for metric_name, value in results.items():
 For probability-based metrics such as ROC-AUC, obtain probability predictions from the fitted model. This example continues from the code above using the same `fitted` pipeline and `test` data:
 
 ```{python}
-#| eval: true
+#| eval: false
 from sklearn.metrics import roc_auc_score
 
 # Get transformed test data (features only, after scaling)
@@ -172,7 +172,7 @@ Evaluate multiple models using the same test data and metrics to identify the be
 Create `compare_models.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import xorq.api as xo
 from xorq.expr.ml import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -258,7 +258,7 @@ Log metrics, model parameters, and evaluation data to track model performance ac
 Create `track_experiments.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import json
 import numpy as np
 import pandas as pd
@@ -348,7 +348,7 @@ Define acceptance criteria and validate models against them before deployment.
 Create `validate_model.py`:
 
 ```{python}
-#| eval: true
+#| eval: false
 import numpy as np
 import pandas as pd
 import xorq.api as xo

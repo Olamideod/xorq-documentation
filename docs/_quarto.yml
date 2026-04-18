@@ -29,9 +29,9 @@ website:
     left:
       - href: getting_started/introduction.qmd
         text: "Get started"
-      - href: tutorials/ml_tutorials/split_data_for_training.qmd
+      - href: tutorials/index.qmd
         text: "Tutorials"
-      - href: guides/data_workflows/read_write_production_data.qmd
+      - href: guides/index.qmd
         text: "Guides"
       - href: concepts/understanding_xorq/overview.qmd
         text: "Concepts"
