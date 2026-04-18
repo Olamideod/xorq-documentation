@@ -1,4 +1,4 @@
 - source: project
   netlify:
-    - id: a62c5e9d-345a-4ae1-8328-5dce211f0661
+    - id: 5654e169-4b2c-44e3-ae45-53dce1028295
       url: 'https://xorq-docs.netlify.app'
