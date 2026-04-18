@@ -3,5 +3,83 @@ title: "Pipeline failures"
 description: "Debug and fix pipeline execution failures"
 ---
 
-Coming soon.
+This page covers pipeline execution errors, missing columns, and wrong step configuration. By the end, you will know how to diagnose and fix the most common pipeline failures.
 
+## Troubleshooting
+
+### Issue: Column not found in table
+
+**Error**: `XorqTypeError: Column 'target' is not found in table`
+
+**Cause**: A supervised transform step (for example, `SelectKBest`) needs the target column during fitting, but the pipeline has no predict step, so the target is dropped after the first transform.
+
+**Solution**: Always add a predict step (for example, `LogisticRegression`) as the final step in any pipeline that uses supervised transforms:
+
+```python
+from sklearn.pipeline import Pipeline as SKPipeline
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+
+pipeline = Pipeline.from_instance(
+    SKPipeline([
+        ("scaler", StandardScaler()),
+        ("selector", SelectKBest(f_classif, k=5)),
+        ("model", LogisticRegression()),  # required for supervised transforms
+    ])
+)
+```
+
+### Issue: KeyError on prediction column
+
+**Error**: `KeyError: 'predicted'`
+
+**Cause**: The prediction column produced by `fitted_pipeline.predict()` is named `"predict"`, not `"predicted"`.
+
+**Solution**: Use `"predict"` as the column name:
+
+```python
+result = fitted.predict(test).execute()
+print(result["predict"])  # correct
+```
+
+### Issue: Pipeline.from_instance vs Pipeline(steps=...)
+
+**Cause**: `Pipeline(steps=(Step(...), ...))` is untested and may fail with subtle errors. Only `Pipeline.from_instance()` has test coverage.
+
+**Solution**: Always construct pipelines with `Pipeline.from_instance()`:
+
+```python
+# correct
+pipeline = Pipeline.from_instance(SKPipeline([("scaler", StandardScaler())]))
+
+# avoid
+pipeline = Pipeline(steps=(Step(typ=StandardScaler, params=()), ...))
+```
+
+### Issue: Stale table error from memtable
+
+**Error**: Mysterious column errors referencing columns that no longer exist.
+
+**Cause**: Named memtables (using `name=` in `xo.memtable()`) can conflict with stale tables registered in a persistent render kernel from previous runs.
+
+**Solution**: Remove the `name=` parameter from `xo.memtable()` calls:
+
+```python
+# correct
+training_data = xo.memtable(df)
+
+# avoid
+training_data = xo.memtable(df, name="training_data")
+```
+
+### Issue: Pipeline fails silently with no output
+
+**Cause**: Code blocks in documentation or notebooks have `#| eval: true`, causing execution during builds with incomplete data.
+
+**Solution**: Set `#| eval: false` on all pipeline code blocks that depend on external data or trained models.
+
+## Next steps
+
+- [Common errors](common_errors.qmd) for schema and metric issues
+- [Overview](index.qmd) for all topics

@@ -44,6 +44,31 @@ $table-bg-level: -2;
 $btn-font-family: $font-family-monospace;
 
 /*-- scss:rules --*/
+
+/* Constrain sidebar to a consistent width on all screen sizes */
+.quarto-page-columns {
+  --quarto-sidebar-width: 250px;
+}
+
+/* Hide sidebar collapse toggle button */
+#quarto-sidebar-toggle,
+.quarto-sidebar-toggle,
+.sidebar-toggle,
+button.quarto-sidebar-toggle {
+  display: none !important;
+}
+
+/* Sidebar section expand/collapse toggle — remove button background */
+.sidebar-item-toggle,
+.sidebar-item .sidebar-item-toggle,
+#quarto-sidebar .sidebar-item-toggle {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  outline: none !important;
+}
+
 .navbar-brand > img {
   content: url("images/xorq-dark-mode-logo.png");
 }
@@ -426,12 +451,12 @@ pre code {
   
   @media (max-width: 768px) {
     padding: 3rem 1rem;
-    min-height: 50vh;
+    min-height: unset;
   }
-  
+
   @media (max-width: 480px) {
     padding: 2rem 1rem;
-    min-height: 45vh;
+    min-height: unset;
   }
 }
 
@@ -640,6 +665,7 @@ pre code {
 }
 
 .doc-card {
+  position: relative;
   border: 1px solid $gray-300;
   border-radius: 16px;
   padding: 1.5rem;
@@ -651,11 +677,21 @@ pre code {
   text-decoration: none;
   color: inherit;
   max-width: 280px;
-  
+
+  @media (max-width: 576px) {
+    max-width: 100%;
+  }
+
   a {
     color: $white;
     text-decoration: none;
-    
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
     &:hover {
       color: $cyan;
     }

@@ -76,10 +76,10 @@ website:
         - id: ai-tutorials-section
           section: "AI tutorials"
           contents:
-            - href: tutorials/ai_tutorials/your_first_udxf.qmd
+            - href: tutorials/ai_tutorials/add_llm_analysis_with_udxfs.qmd
             - href: tutorials/ai_tutorials/call_llms_from_expressions.qmd
             - href: tutorials/ai_tutorials/build_an_mcp_tool.qmd
-            - href: tutorials/ai_tutorials/understand_flight_protocol.qmd
+            # - href: tutorials/ai_tutorials/understand_flight_protocol.qmd
         - id: analytics-tutorials-section
           section: "Analytics tutorials"
           contents:
@@ -280,7 +280,7 @@ website:
             - id: catalog-operations-section
               section: "Catalog operations"
               contents:
-                - reference/Catalog.qmd
+                - reference/XorqCatalog.qmd
                 - reference/Build.qmd
                 - reference/Alias.qmd
                 - reference/CatalogMetadata.qmd

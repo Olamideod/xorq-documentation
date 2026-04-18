@@ -3,5 +3,73 @@ title: "Caching issues"
 description: "Troubleshoot caching and storage problems"
 ---
 
-Coming soon.
+This page covers cache misses, stale results, and storage errors. By the end, you will know how to configure caches correctly and invalidate stale entries.
 
+## Troubleshooting
+
+### Issue: Cache miss on every run
+
+**Cause**: The cache key changes on each run because the expression or its inputs changed (for example, a new memtable name, changed parameters, or a different source path).
+
+**Solution**: Check that the expression is deterministic across runs. Avoid using `name=` in `xo.memtable()`, which changes the cache key:
+
+```python
+# correct — stable cache key
+data = xo.memtable(df)
+
+# avoid — name= changes cache key if it changes between runs
+data = xo.memtable(df, name="training_data")
+```
+
+### Issue: Stale cached results
+
+**Cause**: The underlying data changed but the cache was not invalidated.
+
+**Solution**: Delete the cache directory and re-run to force a fresh computation:
+
+```bash
+rm -rf ./cache
+```
+
+Or scope the cache to a version so old and new results coexist:
+
+```python
+cache = ParquetCache(path="./cache/v2")
+```
+
+### Issue: Storage error writing cache
+
+**Error**: `PermissionError` or `OSError` when writing to the cache path.
+
+**Cause**: The cache directory does not exist or the process lacks write permissions.
+
+**Solution**: Create the directory before running and confirm write access:
+
+```bash
+mkdir -p ./cache
+ls -la ./cache
+```
+
+### Issue: Cache not being used (unexpected recomputation)
+
+**Cause**: The cache was not passed to the pipeline or expression.
+
+**Solution**: Confirm you pass the cache object when constructing the pipeline:
+
+```python
+from xorq.caching import ParquetCache
+
+cache = ParquetCache(path="./cache")
+pipeline = Pipeline.from_instance(
+    SKPipeline([("scaler", StandardScaler()), ("model", LogisticRegression())]),
+    cache=cache,
+)
+```
+
+See [Cache expression results](../getting_started/cache_expression_results.qmd) for the full caching guide.
+
+## Next steps
+
+- [Cache expression results](../getting_started/cache_expression_results.qmd) for caching setup
+- [Performance problems](performance_problems.qmd) for slow evaluation
+- [Overview](index.qmd) for all topics
