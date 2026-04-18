@@ -16,6 +16,7 @@ listing:
       - "getting_started/switch_between_backends.qmd"
     type: grid
     grid-columns: 5
+    sort: false
     fields: [title, description]
   - id: ml-tutorials-cards
     template: "style/gallery.ejs"
@@ -25,6 +26,7 @@ listing:
       - "tutorials/ml_tutorials/explore_model_evaluation.qmd"
     type: grid
     grid-columns: 3
+    sort: false
     fields: [title, description]
 ---
 

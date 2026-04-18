@@ -50,6 +50,31 @@ $btn-font-family: $font-family-monospace;
   --quarto-sidebar-width: 250px;
 }
 
+/* Global scrollbar — dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba($white, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($cyan, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba($cyan, 0.5);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba($cyan, 0.25) rgba($white, 0.05);
+}
+
 /* Hide sidebar collapse toggle button */
 #quarto-sidebar-toggle,
 .quarto-sidebar-toggle,
@@ -707,6 +732,54 @@ pre code {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
     border-color: $white;
+  }
+}
+
+/* ── Release notes ─────────────────────────────────────────────────── */
+.release-notes {
+
+  /* Version heading: e.g. ## 0.3.7 (2026-01-08) */
+  h2 {
+    font-family: $font-family-monospace !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: $white !important;
+    border-left: 3px solid $cyan !important;
+    border-bottom: none !important;
+    padding: 0.35rem 0 0.35rem 0.85rem !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Section labels: Features, Bug Fixes, Refactors, Deprecations */
+  h3 {
+    display: inline-block !important;
+    font-family: $font-family-monospace !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    padding: 0.2rem 0.65rem !important;
+    border-radius: 4px !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.6rem !important;
+    line-height: 1.6 !important;
+  }
+
+  h3:where([id*="feature"]) { background: rgba(#3fb950, 0.15) !important; color: #3fb950 !important; }
+  h3:where([id*="bug"])     { background: rgba(#f85149, 0.15) !important; color: #f85149 !important; }
+  h3:where([id*="fix"])     { background: rgba(#f85149, 0.15) !important; color: #f85149 !important; }
+  h3:where([id*="refactor"]){ background: rgba($cyan, 0.12) !important; color: $cyan !important; }
+  h3:where([id*="deprecat"]){ background: rgba(#d29922, 0.15) !important; color: #e3b341 !important; }
+  h3:where([id*="breaking"]){ background: rgba(#f85149, 0.20) !important; color: #f85149 !important; }
+
+  /* Changelog list items */
+  ul li {
+    font-size: 0.9rem;
+    padding: 0.15rem 0;
+    border: none;
   }
 }
 
